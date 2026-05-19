@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>River ET49 | فقاسة إيطالية احترافية</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --g: #22c55e;
+            --g2: #16a34a;
+            --g3: #4ade80;
+            --dark: #050f08;
+            --dark2: #0a1a0f;
+            --dark3: #0f2318;
+            --dark4: #162d1f;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: var(--dark);
+            color: #e2e8f0;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* ===== Scrollbar ===== */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--dark); }
+        ::-webkit-scrollbar-thumb { background: var(--g); border-radius: 2px; }
+
+        /* ===== Canvas ===== */
+        #hero-canvas {
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0; pointer-events: none;
+        }
+
+        /* ===== Glow effects ===== */
+        .glow { box-shadow: 0 0 30px rgba(34,197,94,0.4), 0 0 60px rgba(34,197,94,0.15); }
+        .glow-sm { box-shadow: 0 0 15px rgba(34,197,94,0.3); }
+        .glow-text { text-shadow: 0 0 30px rgba(34,197,94,0.6), 0 0 60px rgba(34,197,94,0.3); }
+
+        @keyframes glowPulse {
+            0%,100% { box-shadow: 0 0 20px rgba(34,197,94,0.4), 0 0 40px rgba(34,197,94,0.15); }
+            50% { box-shadow: 0 0 50px rgba(34,197,94,0.8), 0 0 100px rgba(34,197,94,0.3); }
+        }
+        .glow-anim { animation: glowPulse 2.5s ease-in-out infinite; }
+
+        /* ===== Text shimmer ===== */
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+        .shimmer {
+            background: linear-gradient(90deg, #22c55e 0%, #4ade80 30%, #86efac 50%, #4ade80 70%, #22c55e 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 4s linear infinite;
+        }
+
+        /* ===== Floating animations ===== */
+        @keyframes floatUp {
+            0%,100% { transform: translateY(0); }
+            50% { transform: translateY(-14px); }
+        }
+        @keyframes floatRight {
+            0%,100% { transform: translateX(0); }
+            50% { transform: translateX(10px); }
+        }
+        .float1 { animation: floatUp 5s ease-in-out infinite; }
+        .float2 { animation: floatUp 4s ease-in-out infinite 1s; }
+        .float3 { animation: floatRight 6s ease-in-out infinite; }
+
+        /* ===== Blob ===== */
+        @keyframes blob {
+            0%   { transform: translate(0,0) scale(1); }
+            33%  { transform: translate(40px,-60px) scale(1.15); }
+            66%  { transform: translate(-30px,30px) scale(0.9); }
+            100% { transform: translate(0,0) scale(1); }
+        }
+        .blob { animation: blob 10s infinite ease-in-out; }
+        .blob2 { animation: blob 14s infinite ease-in-out 3s reverse; }
+        .blob3 { animation: blob 12s infinite ease-in-out 6s; }
+
+        /* ===== Slide in ===== */
+        @keyframes slideRight { from { opacity:0; transform:translateX(70px); } to { opacity:1; transform:translateX(0); } }
+        @keyframes slideLeft  { from { opacity:0; transform:translateX(-70px); } to { opacity:1; transform:translateX(0); } }
+        @keyframes slideUp    { from { opacity:0; transform:translateY(50px); } to { opacity:1; transform:translateY(0); } }
+        .sr { animation: slideRight .9s ease forwards; }
+        .sl { animation: slideLeft  .9s ease forwards; }
+        .su { animation: slideUp    .9s ease forwards; }
+        .d1 { animation-delay:.1s; opacity:0; }
+        .d2 { animation-delay:.2s; opacity:0; }
+        .d3 { animation-delay:.3s; opacity:0; }
+        .d4 { animation-delay:.4s; opacity:0; }
+        .d5 { animation-delay:.5s; opacity:0; }
+        .d6 { animation-delay:.6s; opacity:0; }
+        .d7 { animation-delay:.7s; opacity:0; }
+
+        /* ===== Scroll indicator ===== */
+        @keyframes scrollDot {
+            0% { transform:translateY(0); opacity:1; }
+            100% { transform:translateY(18px); opacity:0; }
+        }
+        .scroll-dot { animation: scrollDot 1.5s ease-in-out infinite; }
+
+        /* ===== Counter ===== */
+        .counter { transition: all .3s; }
+
+        /* ===== Neon border card ===== */
+        .neon-card {
+            position: relative;
+            background: rgba(10,26,15,0.8);
+            border: 1px solid rgba(34,197,94,0.2);
+            backdrop-filter: blur(16px);
+            transition: all .4s ease;
+        }
+        .neon-card:hover {
+            border-color: rgba(34,197,94,0.8);
+            box-shadow: 0 0 40px rgba(34,197,94,0.2), inset 0 0 40px rgba(34,197,94,0.04);
+            transform: translateY(-6px);
+        }
+
+        /* ===== Green line ===== */
+        .green-line {
+            position: relative;
+        }
+        .green-line::after {
+            content:'';
+            position:absolute;
+            bottom: -8px; right: 0;
+            width: 60px; height: 3px;
+            background: var(--g);
+            border-radius: 2px;
+            box-shadow: 0 0 10px rgba(34,197,94,0.6);
+        }
+
+        /* ===== Section divider ===== */
+        .section-divider {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(34,197,94,0.4), transparent);
+        }
+
+        /* ===== Ripple btn ===== */
+        .ripple {
+            position: relative; overflow: hidden;
+        }
+        .ripple::after {
+            content:'';
+            position:absolute; inset:0;
+            border-radius: inherit;
+            background: rgba(255,255,255,0.1);
+            animation: rippleAnim 2s ease-out infinite;
+        }
+        @keyframes rippleAnim {
+            0% { transform:scale(1); opacity:.4; }
+            100% { transform:scale(1.8); opacity:0; }
+        }
+
+        /* ===== 3D Image ===== */
+        .img3d {
+            transition: transform .5s ease, box-shadow .5s ease;
+            transform-style: preserve-3d;
+        }
+        .img3d:hover {
+            transform: perspective(1000px) rotateY(-5deg) rotateX(3deg) scale(1.02);
+            box-shadow: 30px 30px 60px rgba(0,0,0,0.6), 0 0 40px rgba(34,197,94,0.15);
+        }
+
+        /* ===== Typewriter for badge ===== */
+        @keyframes fadeSlide {
+            from { opacity:0; transform:translateY(-4px); }
+            to { opacity:1; transform:translateY(0); }
+        }
+
+        /* ===== Horizontal scan line ===== */
+        @keyframes scan {
+            0% { top: -5%; }
+            100% { top: 105%; }
+        }
+        .scan-line {
+            position: absolute;
+            left: 0; right: 0; height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(34,197,94,0.6), transparent);
+            animation: scan 3s linear infinite;
+            pointer-events: none;
+        }
+
+        /* ===== Navbar ===== */
+        .navbar {
+            background: rgba(5,15,8,0.7);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(34,197,94,0.15);
+            transition: all .3s;
+        }
+        .navbar.scrolled {
+            background: rgba(5,15,8,0.95);
+            border-bottom-color: rgba(34,197,94,0.4);
+        }
+
+        /* ===== Progress bar ===== */
+        #progress-bar {
+            position: fixed; top: 0; left: 0; right: auto;
+            height: 3px; z-index: 9999;
+            background: linear-gradient(90deg, var(--g), var(--g3));
+            width: 0%;
+            transition: width .1s;
+            box-shadow: 0 0 10px rgba(34,197,94,0.8);
+        }
+
+        /* ===== Stat ring ===== */
+        @keyframes ringFill {
+            from { stroke-dashoffset: 314; }
+            to   { stroke-dashoffset: var(--target); }
+        }
+        .ring-circle {
+            stroke-dasharray: 314;
+            stroke-dashoffset: 314;
+            transition: stroke-dashoffset 2s ease;
+        }
+
+        /* ===== Particle ===== */
+        .particle-bg {
+            position: relative;
+            overflow: hidden;
+        }
+        .particle-bg::before {
+            content:'';
+            position:absolute; width:500px; height:500px;
+            background: radial-gradient(circle, rgba(34,197,94,0.08) 0%, transparent 70%);
+            border-radius:50%; top:-150px; right:-100px;
+            animation: blob 12s infinite;
+            pointer-events: none; z-index: 0;
+        }
+        .particle-bg::after {
+            content:'';
+            position:absolute; width:400px; height:400px;
+            background: radial-gradient(circle, rgba(22,163,74,0.06) 0%, transparent 70%);
+            border-radius:50%; bottom:-100px; left:-80px;
+            animation: blob 15s infinite reverse;
+            pointer-events: none; z-index: 0;
+        }
+
+        /* ===== Bounce slow ===== */
+        @keyframes bounceSlow {
+            0%,100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-10px); }
+        }
+        .bounce-slow { animation: bounceSlow 2s ease-in-out infinite; }
+
+        /* ===== Hover lift ===== */
+        .lift { transition: transform .3s ease, box-shadow .3s ease; }
+        .lift:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 30px rgba(34,197,94,0.1); }
+
+        /* ===== Step line ===== */
+        .step-connector {
+            position: absolute;
+            left: 50%; top: 100%;
+            width: 2px; height: 40px;
+            background: linear-gradient(to bottom, rgba(34,197,94,0.6), transparent);
+            transform: translateX(-50%);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Progress Bar -->
+    <div id="progress-bar"></div>
+
+    <!-- ======== NAVBAR ======== -->
+    <nav id="main-nav" class="navbar fixed w-full z-50 top-0">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center gap-3">
+
+                <!-- Logo -->
+                <div class="flex items-center gap-2 flex-shrink-0">
+                    <div class="w-8 h-8 rounded-lg bg-green-500/20 border border-green-500/40 flex items-center justify-center">
+                        <i class="fa-solid fa-egg text-green-400 text-sm"></i>
+                    </div>
+                    <span class="text-white font-bold text-lg">River <span class="text-green-400">ET49</span></span>
+                </div>
+
+                <!-- Center badge -->
+                <div class="hidden md:flex items-center gap-2 bg-green-500/10 border border-green-500/30 px-4 py-1.5 rounded-full">
+                    <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                    <span class="text-green-300 text-sm font-medium">توصيل مجاني · 58 ولاية · الدفع عند الاستلام</span>
+                </div>
+
+                <!-- CTA -->
+                <a href="https://yaltech.foorweb.store/yaltech/products/river49" class="ripple glow-sm flex-shrink-0 bg-green-500 hover:bg-green-400 text-black font-bold px-5 py-2 rounded-full text-sm transition-all duration-300 flex items-center gap-2">
+                    اطلب الآن <i class="fa-solid fa-arrow-left text-xs"></i>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ======== HERO ======== -->
+    <section id="home" class="relative min-h-screen flex items-center overflow-hidden pt-16">
+
+        <!-- Three.js Canvas -->
+        <canvas id="hero-canvas"></canvas>
+
+        <!-- Blobs -->
+        <div class="blob absolute w-[600px] h-[600px] bg-green-900/20 rounded-full blur-[120px] -top-40 -right-40 pointer-events-none"></div>
+        <div class="blob2 absolute w-[400px] h-[400px] bg-green-700/15 rounded-full blur-[100px] -bottom-20 -left-20 pointer-events-none"></div>
+
+        <!-- Scan line -->
+        <div class="scan-line"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-16 w-full">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+
+                <!-- Left: Text -->
+                <div class="space-y-7">
+                    <!-- Badge -->
+                    <div class="sr d1 inline-flex items-center gap-2 bg-green-500/10 border border-green-500/30 px-4 py-2 rounded-full backdrop-blur-sm">
+                        <i class="fa-solid fa-certificate text-green-400 text-sm"></i>
+                        <span class="text-green-300 text-sm font-semibold">رقم 1 في الجزائر — صنع في إيطاليا</span>
+                    </div>
+
+                    <!-- Title -->
+                    <h1 class="sr d2 text-5xl md:text-6xl lg:text-7xl font-black leading-[1.1] text-white">
+                        فقاسة<br>
+                        <span class="shimmer glow-text">River ET49</span><br>
+                        <span class="text-3xl md:text-4xl font-bold text-slate-300">الإيطالية الأصلية</span>
+                    </h1>
+
+                    <!-- Desc -->
+                    <p class="sr d3 text-lg text-slate-400 leading-relaxed max-w-lg">
+                        تقنية أوروبية متطورة، تقليب أوتوماتيكي، وتحكم رقمي دقيق. النتيجة؟ نسبة تفقيس تتجاوز <span class="text-green-400 font-bold">90%</span> في كل دورة.
+                    </p>
+
+                    <!-- Price block -->
+                    <div class="sr d4 flex items-end gap-6">
+                        <div class="float1">
+                            <div class="neon-card rounded-2xl p-5">
+                                <span class="text-slate-500 line-through text-sm block">49,000 دج</span>
+                                <div class="text-4xl font-black text-white mt-1">39,000 <span class="text-green-400 text-2xl">دج</span></div>
+                                <div class="text-green-400 font-bold text-sm mt-1">3 ملاين و 900 ألف</div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <div class="bg-green-500/10 border border-green-500/30 text-green-400 px-3 py-1.5 rounded-full text-xs font-bold">
+                                <i class="fa-solid fa-shield-halved ml-1"></i>ضمان سنة
+                            </div>
+                            <div class="bg-green-500/10 border border-green-500/30 text-green-400 px-3 py-1.5 rounded-full text-xs font-bold">
+                                <i class="fa-solid fa-truck-fast ml-1"></i>توصيل مجاني
+                            </div>
+                            <div class="bg-green-500/10 border border-green-500/30 text-green-400 px-3 py-1.5 rounded-full text-xs font-bold">
+                                <i class="fa-solid fa-tag ml-1"></i>وفر 10,000 دج
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CTAs -->
+                    <div class="sr d5 flex flex-col sm:flex-row gap-4">
+                        <a href="https://yaltech.foorweb.store/yaltech/products/river49" class="ripple glow glow-anim bg-green-500 hover:bg-green-400 text-black font-black text-lg px-10 py-4 rounded-full transition-all duration-300 flex items-center justify-center gap-3 group">
+                            اطلب الآن
+                            <i class="fa-solid fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
+                        </a>
+                        <a href="#video-demo" class="lift flex items-center justify-center gap-4 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-green-500/50 px-6 py-4 rounded-full transition-all duration-300 text-white">
+                            <div class="relative w-10 h-10 flex-shrink-0">
+                                <span class="animate-ping absolute inset-0 rounded-full bg-green-500 opacity-40"></span>
+                                <div class="relative bg-green-500 w-10 h-10 rounded-full flex items-center justify-center">
+                                    <i class="fa-solid fa-play text-white text-sm pr-0.5"></i>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="font-bold text-sm">شاهد الفيديو</div>
+                                <div class="text-slate-500 text-xs">شرح كامل للمنتج</div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Trust row -->
+                    <div class="sr d6 flex items-center gap-6 text-xs text-slate-500 font-medium pt-2">
+                        <span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>شحن سريع</span>
+                        <span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>58 ولاية</span>
+                        <span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>دفع عند الاستلام</span>
+                        <span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>صناعة إيطالية</span>
+                    </div>
+                </div>
+
+                <!-- Right: Product Image -->
+                <div class="sl d3 relative">
+                    <div class="img3d relative rounded-3xl overflow-hidden border border-green-500/20 shadow-[0_0_80px_rgba(0,0,0,0.8)]">
+                        <img src="https://i.ibb.co/rRcJ9yhg/unnamed.jpg" alt="River ET49" class="w-full h-auto object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-8">
+                            <p class="text-white font-bold text-xl leading-tight">تقنية إيطالية<br><span class="text-green-400">لنتائج مبهرة</span></p>
+                        </div>
+                        <!-- Scan overlay -->
+                        <div class="absolute inset-0 pointer-events-none" style="background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(34,197,94,0.02) 3px, rgba(34,197,94,0.02) 4px);"></div>
+                    </div>
+
+                    <!-- Floating stat cards -->
+                    <div class="float1 absolute -top-6 -right-6 neon-card rounded-2xl p-4 text-center shadow-xl">
+                        <div class="text-3xl font-black text-green-400">90%</div>
+                        <div class="text-xs text-slate-400 mt-0.5">نسبة التفقيس</div>
+                    </div>
+                    <div class="float2 absolute -bottom-6 -left-6 neon-card rounded-2xl p-4 text-center shadow-xl">
+                        <div class="text-3xl font-black text-green-400">49</div>
+                        <div class="text-xs text-slate-400 mt-0.5">بيضة / دفعة</div>
+                    </div>
+
+                    <!-- Glow behind image -->
+                    <div class="absolute -z-10 inset-0 bg-green-500/8 rounded-3xl blur-3xl scale-110"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-slate-600 z-10">
+            <span class="text-xs">اسحب</span>
+            <div class="w-5 h-9 border border-slate-700 rounded-full flex justify-center pt-1.5">
+                <div class="scroll-dot w-1 h-1 bg-green-500 rounded-full"></div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ======== VIDEO ======== -->
+    <section id="video-demo" class="py-24 particle-bg">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-12">
+                <div data-aos="fade-down" class="inline-flex items-center gap-2 bg-green-500/10 border border-green-500/20 px-4 py-1.5 rounded-full text-green-400 text-sm font-semibold mb-6">
+                    <i class="fa-solid fa-circle-play"></i> شرح عملي وتفصيلي
+                </div>
+                <h2 data-aos="fade-up" data-aos-delay="100" class="text-4xl md:text-5xl font-black text-white mb-4">
+                    اكتشف <span class="shimmer">River ET49</span> عن قرب
+                </h2>
+                <p data-aos="fade-up" data-aos-delay="200" class="text-slate-400 text-lg max-w-xl mx-auto">
+                    شرح كامل لطريقة الإعداد، ضبط الحرارة، ووضع البيض لضمان أفضل نسبة تفقيس
+                </p>
+            </div>
+
+            <div data-aos="zoom-in" data-aos-delay="300">
+                <a href="https://www.youtube.com/watch?v=RV7sqiE5Gyo" target="_blank" class="lift block relative rounded-3xl overflow-hidden aspect-video border border-green-500/20 group shadow-[0_0_80px_rgba(0,0,0,0.8)]">
+                    <img src="https://i.ibb.co/dwyD9PYb/Gemini-Generated-Image-cj3s97cj3s97cj3s.png" alt="فيديو الفقاسة" class="absolute inset-0 w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black/50 group-hover:bg-black/30 transition-all duration-500 flex items-center justify-center">
+                        <div class="flex flex-col items-center gap-4">
+                            <div class="glow-anim w-20 h-20 md:w-28 md:h-28 bg-green-500 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                                <i class="fa-solid fa-play text-white text-3xl md:text-4xl pr-0.5"></i>
+                            </div>
+                            <span class="text-white font-bold bg-black/50 backdrop-blur-sm px-6 py-2 rounded-full border border-white/10">اضغط للمشاهدة</span>
+                        </div>
+                    </div>
+                    <div style="background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(34,197,94,0.02) 3px, rgba(34,197,94,0.02) 4px);" class="absolute inset-0 pointer-events-none"></div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ======== WHY ======== -->
+    <section class="py-24 relative overflow-hidden">
+        <div class="max-w-4xl mx-auto px-6 text-center relative z-10">
+            <div data-aos="fade-up" class="neon-card rounded-3xl p-12 md:p-16 relative overflow-hidden">
+                <div class="blob3 absolute w-64 h-64 bg-green-500/8 rounded-full blur-3xl top-0 right-0 pointer-events-none"></div>
+                <i data-aos="zoom-in" class="fa-solid fa-circle-exclamation text-4xl text-green-400 mb-6 block"></i>
+                <h2 data-aos="fade-up" data-aos-delay="100" class="text-3xl md:text-4xl font-black text-white mb-6">
+                    لماذا تخاطر بالفقاسات الرديئة؟
+                </h2>
+                <p data-aos="fade-up" data-aos-delay="200" class="text-lg text-slate-400 leading-relaxed max-w-2xl mx-auto">
+                    الكثير من المربين يخسرون البيض الثمين بسبب التذبذب في درجات الحرارة أو التقليب اليدوي المتعب.
+                    مع <span class="text-green-400 font-bold">River ET49</span>، أنت تشتري
+                    <span class="text-white font-bold">"راحة البال"</span> وتضمن استثمارك.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ======== FEATURES ======== -->
+    <section id="features" class="py-24 particle-bg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16">
+                <div data-aos="fade-down" class="inline-flex items-center gap-2 bg-green-500/10 border border-green-500/20 px-4 py-1.5 rounded-full text-green-400 text-sm font-semibold mb-6">
+                    <i class="fa-solid fa-star"></i> المميزات الحصرية
+                </div>
+                <h2 data-aos="fade-up" data-aos-delay="100" class="text-4xl md:text-5xl font-black text-white mb-4">
+                    كل ما تحتاجه <span class="shimmer">لتفقيس ناجح 100%</span>
+                </h2>
+                <div data-aos="zoom-in" data-aos-delay="200" class="w-16 h-1 bg-green-500 mx-auto rounded-full mt-4 glow-sm"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+                <div data-aos="fade-up" data-aos-delay="0" class="neon-card rounded-3xl p-8 group cursor-default">
+                    <div class="w-14 h-14 bg-green-500/15 border border-green-500/30 rounded-2xl flex items-center justify-center text-2xl text-green-400 mb-6 group-hover:bg-green-500 group-hover:text-black group-hover:scale-110 transition-all duration-300">
+                        <i class="fa-solid fa-rotate"></i>
+                    </div>
+                    <h3 class="text-xl font-black text-white mb-3">تقليب أوتوماتيكي</h3>
+                    <p class="text-slate-400 leading-relaxed">محرك متطور يقلب البيض بانسيابية تامة لمحاكاة الطبيعة، مما يمنع التصاق الجنين بالقشرة.</p>
+                    <div class="mt-6 h-px bg-gradient-to-l from-green-500/30 to-transparent"></div>
+                </div>
+
+                <div data-aos="fade-up" data-aos-delay="150" class="neon-card rounded-3xl p-8 group cursor-default" style="border-color: rgba(34,197,94,0.4); box-shadow: 0 0 40px rgba(34,197,94,0.1);">
+                    <div class="w-14 h-14 bg-green-500/15 border border-green-500/30 rounded-2xl flex items-center justify-center text-2xl text-green-400 mb-6 group-hover:bg-green-500 group-hover:text-black group-hover:scale-110 transition-all duration-300">
+                        <i class="fa-solid fa-temperature-half"></i>
+                    </div>
+                    <h3 class="text-xl font-black text-white mb-3">تحكم رقمي دقيق</h3>
+                    <p class="text-slate-400 leading-relaxed">شاشة رقمية لضبط الحرارة من 30 إلى 40°C مع حساس حراري يضمن استقرار البيئة الداخلية دائماً.</p>
+                    <div class="mt-6 h-px bg-gradient-to-l from-green-500/30 to-transparent"></div>
+                </div>
+
+                <div data-aos="fade-up" data-aos-delay="300" class="neon-card rounded-3xl p-8 group cursor-default">
+                    <div class="w-14 h-14 bg-green-500/15 border border-green-500/30 rounded-2xl flex items-center justify-center text-2xl text-green-400 mb-6 group-hover:bg-green-500 group-hover:text-black group-hover:scale-110 transition-all duration-300">
+                        <i class="fa-solid fa-layer-group"></i>
+                    </div>
+                    <h3 class="text-xl font-black text-white mb-3">شبكة يونيفرسال</h3>
+                    <p class="text-slate-400 leading-relaxed">تصميم إيطالي يسمح بوضع بيض بأحجام مختلفة في نفس الحامل — من السمان الصغير إلى الأوز الكبير.</p>
+                    <div class="mt-6 h-px bg-gradient-to-l from-green-500/30 to-transparent"></div>
+                </div>
+            </div>
+
+            <!-- Gallery -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <div data-aos="zoom-in" data-aos-delay="0" class="img3d rounded-3xl overflow-hidden border border-green-500/15 cursor-pointer aspect-video" onclick="openLightbox(this.querySelector('img').src)">
+                    <img src="https://i.ibb.co/JwxF7qKY/Gemini-Generated-Image-5rs36l5rs36l5rs3.png" alt="تفاصيل الفقاسة" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+                </div>
+                <div data-aos="zoom-in" data-aos-delay="150" class="img3d rounded-3xl overflow-hidden border border-green-500/15 cursor-pointer aspect-video" onclick="openLightbox(this.querySelector('img').src)">
+                    <img src="https://i.ibb.co/m5n1nyFR/Chat-GPT-Image-28-mars-2026-00-48-18.png" alt="لوحة التحكم" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+                </div>
+                <div data-aos="zoom-in" data-aos-delay="300" class="img3d rounded-3xl overflow-hidden border border-green-500/15 cursor-pointer aspect-video" onclick="openLightbox(this.querySelector('img').src)">
+                    <img src="https://i.ibb.co/393BwfhJ/Chat-GPT-Image-28-mars-2026-00-42-00.png" alt="تفاصيل المنتج" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ======== HOW IT WORKS ======== -->
+    <section id="how-it-works" class="py-24">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <div data-aos="fade-down" class="inline-flex items-center gap-2 bg-green-500/10 border border-green-500/20 px-4 py-1.5 rounded-full text-green-400 text-sm font-semibold mb-6">
+                    <i class="fa-solid fa-list-ol"></i> سهولة الاستخدام
+                </div>
+                <h2 data-aos="fade-up" data-aos-delay="100" class="text-4xl md:text-5xl font-black text-white mb-4">
+                    3 خطوات فقط <span class="shimmer">لدورة ناجحة</span>
+                </h2>
+            </div>
+
+            <div class="space-y-4">
+                <div data-aos="fade-right" data-aos-delay="0" class="neon-card rounded-3xl p-6 flex gap-6 items-center group">
+                    <div class="flex-shrink-0 w-14 h-14 rounded-2xl bg-green-500/15 border border-green-500/30 text-green-400 font-black text-2xl flex items-center justify-center group-hover:bg-green-500 group-hover:text-black transition-all duration-300">1</div>
+                    <div>
+                        <h4 class="text-xl font-black text-white mb-1">إضافة الماء والبيض</h4>
+                        <p class="text-slate-400">ملء حوض الماء من الخارج دون فتح الفقاسة ورص البيض في الشبكة المخصصة.</p>
+                    </div>
+                </div>
+
+                <div data-aos="fade-right" data-aos-delay="150" class="neon-card rounded-3xl p-6 flex gap-6 items-center group">
+                    <div class="flex-shrink-0 w-14 h-14 rounded-2xl bg-green-500/15 border border-green-500/30 text-green-400 font-black text-2xl flex items-center justify-center group-hover:bg-green-500 group-hover:text-black transition-all duration-300">2</div>
+                    <div>
+                        <h4 class="text-xl font-black text-white mb-1">ضبط الحرارة</h4>
+                        <p class="text-slate-400">باستخدام الأزرار الرقمية، ضبط درجة الحرارة المناسبة لنوع الطائر. اترك الباقي للآلة!</p>
+                    </div>
+                </div>
+
+                <div data-aos="fade-right" data-aos-delay="300" class="neon-card rounded-3xl p-6 flex gap-6 items-center group">
+                    <div class="flex-shrink-0 w-14 h-14 rounded-2xl bg-green-500/15 border border-green-500/30 text-green-400 font-black text-2xl flex items-center justify-center group-hover:bg-green-500 group-hover:text-black transition-all duration-300">3</div>
+                    <div class="flex-1 flex flex-col sm:flex-row sm:items-center gap-4 justify-between">
+                        <div>
+                            <h4 class="text-xl font-black text-white mb-1">انتظار الفقس</h4>
+                            <p class="text-slate-400">في الأيام الأخيرة، انقل البيض إلى شبكة الفقس وراقب الكتاكيت عبر النافذة الشفافة.</p>
+                        </div>
+                        <a href="tel:0658236890" class="flex-shrink-0 inline-flex items-center gap-2 bg-green-500/10 hover:bg-green-500/20 border border-green-500/30 text-green-400 px-4 py-2 rounded-full text-sm font-bold transition-all animate-pulse">
+                            <i class="fa-solid fa-phone-volume"></i> <span dir="ltr">0658 23 68 90</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Big image -->
+            <div data-aos="zoom-in" data-aos-delay="100" class="mt-16 -mb-36 relative z-20">
+                <div class="img3d rounded-[2.5rem] overflow-hidden border border-green-500/20 shadow-[0_0_100px_rgba(0,0,0,0.8)]">
+                    <img src="https://i.ibb.co/FkjqHftq/Gemini-Generated-Image-ruqmedruqmedruqm.png" alt="الفقاسة" class="w-full h-64 md:h-80 object-cover">
+                    <div style="background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(34,197,94,0.015) 3px, rgba(34,197,94,0.015) 4px);" class="absolute inset-0 pointer-events-none"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======== SPECS ======== -->
+    <section id="specs" class="pt-56 pb-24 particle-bg" style="background: var(--dark2);">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16">
+                <div data-aos="fade-down" class="inline-flex items-center gap-2 bg-green-500/10 border border-green-500/20 px-4 py-1.5 rounded-full text-green-400 text-sm font-semibold mb-6">
+                    <i class="fa-solid fa-chart-bar"></i> المواصفات الفنية
+                </div>
+                <h2 data-aos="fade-up" data-aos-delay="100" class="text-4xl md:text-5xl font-black text-white">
+                    أرقام تتحدث <span class="shimmer">عن نفسها</span>
+                </h2>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
+                <div data-aos="fade-up" data-aos-delay="0" class="neon-card rounded-3xl p-8 text-center group lift">
+                    <i class="fa-solid fa-egg text-3xl text-green-400 mb-4 block group-hover:scale-125 transition-transform"></i>
+                    <div class="text-4xl font-black text-white counter" data-target="49">0</div>
+                    <div class="text-green-400 font-bold text-sm mt-0.5">بيضة</div>
+                    <p class="text-slate-500 text-xs mt-2">دجاج / بط</p>
+                </div>
+                <div data-aos="fade-up" data-aos-delay="100" class="neon-card rounded-3xl p-8 text-center group lift">
+                    <i class="fa-solid fa-kiwi-bird text-3xl text-green-400 mb-4 block group-hover:scale-125 transition-transform"></i>
+                    <div class="text-4xl font-black text-white counter" data-target="196">0</div>
+                    <div class="text-green-400 font-bold text-sm mt-0.5">بيضة</div>
+                    <p class="text-slate-500 text-xs mt-2">سمان (4 في خانة)</p>
+                </div>
+                <div data-aos="fade-up" data-aos-delay="200" class="neon-card rounded-3xl p-8 text-center group lift">
+                    <i class="fa-solid fa-bolt text-3xl text-green-400 mb-4 block group-hover:scale-125 transition-transform"></i>
+                    <div class="text-4xl font-black text-white counter" data-target="170">0</div>
+                    <div class="text-green-400 font-bold text-sm mt-0.5">واط</div>
+                    <p class="text-slate-500 text-xs mt-2">استهلاك اقتصادي</p>
+                </div>
+                <div data-aos="fade-up" data-aos-delay="300" class="neon-card rounded-3xl p-8 text-center group lift">
+                    <i class="fa-solid fa-earth-europe text-3xl text-green-400 mb-4 block group-hover:scale-125 transition-transform"></i>
+                    <div class="text-xl font-black text-white mt-2">إيطاليا</div>
+                    <div class="text-green-400 font-bold text-sm mt-0.5">بلد الصنع</div>
+                    <p class="text-slate-500 text-xs mt-2">جودة أوروبية</p>
+                </div>
+            </div>
+
+            <!-- Did you know -->
+            <div data-aos="fade-up" class="neon-card rounded-3xl p-8 flex flex-col md:flex-row items-center gap-8">
+                <div class="flex-1">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 bg-green-500/15 border border-green-500/30 rounded-xl flex items-center justify-center">
+                            <i class="fa-solid fa-lightbulb text-green-400"></i>
+                        </div>
+                        <h3 class="text-2xl font-black text-white">هل تعلم؟</h3>
+                    </div>
+                    <p class="text-slate-400 leading-relaxed">موديل ET49 مجهز بنوافذ فحص شفافة تسمح لك بمراقبة البيض وعملية الفقس دون الحاجة لفتح الغطاء وتسريب الحرارة.</p>
+                </div>
+                <div class="flex-shrink-0">
+                    <div class="img3d rounded-2xl overflow-hidden border border-green-500/20 p-3 bg-white/5">
+                        <img src="https://i.ibb.co/KjjS23qX/549-A-Incubatrice-digitale-ET-49-con-unit-girauova-Ovomatic-oblo.png" alt="نافذة الفقاسة" class="w-44 h-28 object-contain">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ======== DIMENSIONS ======== -->
+    <section class="py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div>
+                    <div data-aos="fade-right" class="inline-flex items-center gap-2 bg-green-500/10 border border-green-500/20 px-4 py-1.5 rounded-full text-green-400 text-sm font-semibold mb-6">
+                        <i class="fa-solid fa-ruler"></i> المقاسات
+                    </div>
+                    <h2 data-aos="fade-right" data-aos-delay="100" class="text-4xl md:text-5xl font-black text-white mb-6">تصميم مدمج<br><span class="shimmer">يناسب أي مساحة</span></h2>
+                    <p data-aos="fade-right" data-aos-delay="200" class="text-slate-400 mb-10 leading-relaxed">أبعاد هندسية ذكية — واسعة من الداخل لـ 49 بيضة، ومدمجة من الخارج لتناسب أي مكان.</p>
+
+                    <div class="grid grid-cols-3 gap-4">
+                        <div data-aos="zoom-in" data-aos-delay="100" class="neon-card rounded-2xl p-5 text-center lift">
+                            <i class="fa-solid fa-arrows-left-right text-green-400 text-xl mb-3 block"></i>
+                            <div class="text-white font-black text-lg" dir="ltr">58 cm</div>
+                            <div class="text-slate-500 text-xs mt-1">العرض</div>
+                        </div>
+                        <div data-aos="zoom-in" data-aos-delay="200" class="neon-card rounded-2xl p-5 text-center lift">
+                            <i class="fa-solid fa-arrows-up-down text-green-400 text-xl mb-3 block"></i>
+                            <div class="text-white font-black text-lg" dir="ltr">50 cm</div>
+                            <div class="text-slate-500 text-xs mt-1">الطول</div>
+                        </div>
+                        <div data-aos="zoom-in" data-aos-delay="300" class="neon-card rounded-2xl p-5 text-center lift">
+                            <i class="fa-solid fa-arrows-up-to-line text-green-400 text-xl mb-3 block"></i>
+                            <div class="text-white font-black text-lg" dir="ltr">26 cm</div>
+                            <div class="text-slate-500 text-xs mt-1">الارتفاع</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div data-aos="fade-left" class="relative">
+                    <div class="img3d rounded-3xl overflow-hidden border border-green-500/20 cursor-pointer group" onclick="openLightbox(this.querySelector('img').src)">
+                        <img src="https://i.ibb.co/7NYVrprk/Gemini-Generated-Image-v170v3v170v3v170.png" alt="مقاسات الفقاسة" class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <i class="fa-solid fa-magnifying-glass-plus text-white text-4xl"></i>
+                        </div>
+                        <div style="background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(34,197,94,0.02) 3px, rgba(34,197,94,0.02) 4px);" class="absolute inset-0 pointer-events-none"></div>
+                        <div class="absolute bottom-4 right-4 neon-card rounded-xl px-4 py-2 text-sm font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-ruler-combined text-green-400"></i> خفيفة وعملية
+                        </div>
+                    </div>
+                    <div class="absolute -z-10 inset-0 bg-green-500/5 rounded-3xl blur-3xl scale-110"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ======== PORTABILITY ======== -->
+    <section class="py-24 particle-bg" style="background: var(--dark2);">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div data-aos="fade-right" class="relative">
+                    <div class="img3d rounded-3xl overflow-hidden border border-green-500/20 cursor-pointer group" onclick="openLightbox(this.querySelector('img').src)">
+                        <img src="https://i.ibb.co/v61bWGcP/Gemini-Generated-Image-7jxjb57jxjb57jxj.png" alt="الفقاسة في المنزل" class="w-full h-[420px] object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <i class="fa-solid fa-expand text-white text-4xl"></i>
+                        </div>
+                        <div style="background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(34,197,94,0.02) 3px, rgba(34,197,94,0.02) 4px);" class="absolute inset-0 pointer-events-none"></div>
+                    </div>
+                    <div class="absolute -z-10 inset-0 bg-green-500/5 rounded-3xl blur-3xl scale-110"></div>
+                </div>
+
+                <div>
+                    <div data-aos="fade-left" class="inline-flex items-center gap-2 bg-green-500/10 border border-green-500/20 px-4 py-1.5 rounded-full text-green-400 text-sm font-semibold mb-6">
+                        <i class="fa-solid fa-house-chimney-window"></i> أناقة وعملية
+                    </div>
+                    <h2 data-aos="fade-left" data-aos-delay="100" class="text-4xl md:text-5xl font-black text-white mb-6">
+                        ليست فقاسة فقط...<br><span class="shimmer">بل تحفة إيطالية</span>
+                    </h2>
+                    <p data-aos="fade-left" data-aos-delay="200" class="text-slate-400 mb-8 leading-relaxed">
+                        انسَ الفقاسات القديمة المزعجة. مع التصميم الإيطالي العصري، ستفخر بوضعها في أي زاوية من منزلك.
+                    </p>
+                    <ul class="space-y-4">
+                        <li data-aos="fade-left" data-aos-delay="250" class="flex items-start gap-4 neon-card rounded-2xl p-4">
+                            <div class="flex-shrink-0 w-8 h-8 bg-green-500/15 border border-green-500/30 rounded-lg flex items-center justify-center">
+                                <i class="fa-solid fa-check text-green-400 text-xs"></i>
+                            </div>
+                            <div>
+                                <span class="text-white font-bold">وزن خفيف وحجم مثالي</span>
+                                <p class="text-slate-400 text-sm mt-0.5">نقلها سهل من أي غرفة إلى أخرى دون عناء.</p>
+                            </div>
+                        </li>
+                        <li data-aos="fade-left" data-aos-delay="350" class="flex items-start gap-4 neon-card rounded-2xl p-4">
+                            <div class="flex-shrink-0 w-8 h-8 bg-green-500/15 border border-green-500/30 rounded-lg flex items-center justify-center">
+                                <i class="fa-solid fa-check text-green-400 text-xs"></i>
+                            </div>
+                            <div>
+                                <span class="text-white font-bold">تصميم صامت وأنيق</span>
+                                <p class="text-slate-400 text-sm mt-0.5">تعمل بهدوء تام — إضافة مميزة لأي مكان.</p>
+                            </div>
+                        </li>
+                        <li data-aos="fade-left" data-aos-delay="450" class="flex items-start gap-4 neon-card rounded-2xl p-4">
+                            <div class="flex-shrink-0 w-8 h-8 bg-green-500/15 border border-green-500/30 rounded-lg flex items-center justify-center">
+                                <i class="fa-solid fa-check text-green-400 text-xs"></i>
+                            </div>
+                            <div>
+                                <span class="text-white font-bold">تجربة عائلية ممتعة</span>
+                                <p class="text-slate-400 text-sm mt-0.5">النوافذ الشفافة تجعل من مراقبة الفقس متعة لك ولأطفالك.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ======== TUTORIAL VIDEO ======== -->
+    <section class="py-24 particle-bg">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-12">
+                <div data-aos="fade-down" class="inline-flex items-center gap-2 bg-green-500/10 border border-green-500/20 px-4 py-1.5 rounded-full text-green-400 text-sm font-semibold mb-6">
+                    <i class="fa-solid fa-book-open"></i> دليل الاستخدام
+                </div>
+                <h2 data-aos="fade-up" data-aos-delay="100" class="text-4xl md:text-5xl font-black text-white mb-4">
+                    تشغيل الفقاسة <span class="shimmer">خطوة بخطوة</span>
+                </h2>
+                <p data-aos="fade-up" data-aos-delay="200" class="text-slate-400 text-lg max-w-xl mx-auto">شرح مبسط من التوصيل حتى الحصول على كتاكيت ناجحة</p>
+            </div>
+
+            <div data-aos="zoom-in" data-aos-delay="300">
+                <a href="https://www.youtube.com/watch?v=5Ai8iNEmzYo" target="_blank" class="lift block relative rounded-3xl overflow-hidden aspect-video border border-green-500/20 group shadow-[0_0_80px_rgba(0,0,0,0.8)]">
+                    <img src="https://i.ibb.co/B2f85zbn/e13db507-613a-4025-a080-25e42539ca30.png" alt="فيديو التشغيل" class="absolute inset-0 w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black/50 group-hover:bg-black/30 transition-all duration-500 flex items-center justify-center">
+                        <div class="flex flex-col items-center gap-4">
+                            <div class="glow-anim w-20 h-20 md:w-28 md:h-28 bg-green-500 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                                <i class="fa-solid fa-play text-white text-3xl md:text-4xl pr-0.5"></i>
+                            </div>
+                            <span class="text-white font-bold bg-black/50 backdrop-blur-sm px-6 py-2 rounded-full border border-white/10">اضغط للمشاهدة</span>
+                        </div>
+                    </div>
+                    <div style="background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(34,197,94,0.015) 3px, rgba(34,197,94,0.015) 4px);" class="absolute inset-0 pointer-events-none"></div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ======== TESTIMONIALS ======== -->
+    <section class="py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <div data-aos="fade-down" class="inline-flex items-center gap-2 bg-green-500/10 border border-green-500/20 px-4 py-1.5 rounded-full text-green-400 text-sm font-semibold mb-6">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    &nbsp;آراء العملاء
+                </div>
+                <h2 data-aos="fade-up" data-aos-delay="100" class="text-4xl md:text-5xl font-black text-white">
+                    ماذا يقول <span class="shimmer">المربون</span>؟
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div data-aos="fade-up" data-aos-delay="0" class="neon-card rounded-3xl p-8 group lift">
+                    <div class="flex gap-1 text-green-400 mb-6 text-sm">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-slate-400 leading-relaxed mb-8">"كنت أخسر نصف البيض مع الفقاسات الرخيصة. منذ ET49، نسبة التفقيس تجاوزت 90%. الاستثمار يعيد نفسه من أول دورتين!"</p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-11 h-11 rounded-full bg-green-500/20 border border-green-500/30 flex items-center justify-center text-green-400 font-black">م</div>
+                        <div>
+                            <div class="text-white font-bold text-sm">محمد العبدالله</div>
+                            <div class="text-slate-500 text-xs">مربي دواجن محترف</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div data-aos="fade-up" data-aos-delay="150" class="neon-card rounded-3xl p-8 group lift" style="border-color: rgba(34,197,94,0.4); box-shadow: 0 0 40px rgba(34,197,94,0.08);">
+                    <div class="flex gap-1 text-green-400 mb-6 text-sm">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-slate-400 leading-relaxed mb-8">"مبتدئ تماماً في هذا المجال لكن شاشة العرض الرقمية والتقليب الأوتوماتيكي جعلا الأمر ممتعاً وسهلاً جداً."</p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-11 h-11 rounded-full bg-green-500/20 border border-green-500/30 flex items-center justify-center text-green-400 font-black">ع</div>
+                        <div>
+                            <div class="text-white font-bold text-sm">علي الغامدي</div>
+                            <div class="text-slate-500 text-xs">هاوي تربية طيور</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div data-aos="fade-up" data-aos-delay="300" class="neon-card rounded-3xl p-8 group lift">
+                    <div class="flex gap-1 text-green-400 mb-6 text-sm">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-slate-400 leading-relaxed mb-8">"شبكة البيض ممتازة! أضع بيض السمان والدجاج في نفس الوقت. ميزة تعبئة الماء من الخارج عبقرية للحفاظ على الرطوبة."</p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-11 h-11 rounded-full bg-green-500/20 border border-green-500/30 flex items-center justify-center text-green-400 font-black">س</div>
+                        <div>
+                            <div class="text-white font-bold text-sm">سالم السعيد</div>
+                            <div class="text-slate-500 text-xs">صاحب مزرعة منتجة</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ======== CTA FINAL ======== -->
+    <section id="buy" class="py-24 particle-bg" style="background: var(--dark2);">
+        <div class="max-w-3xl mx-auto px-4 text-center relative z-10">
+            <div data-aos="fade-up" class="neon-card rounded-[2.5rem] p-10 md:p-16 relative overflow-hidden">
+                <div class="blob absolute w-80 h-80 bg-green-500/8 rounded-full blur-3xl top-0 right-0 pointer-events-none"></div>
+                <div class="blob2 absolute w-60 h-60 bg-green-400/5 rounded-full blur-3xl bottom-0 left-0 pointer-events-none"></div>
+
+                <!-- Scan line inside card -->
+                <div class="scan-line" style="height:1px; background: linear-gradient(90deg, transparent, rgba(34,197,94,0.4), transparent);"></div>
+
+                <div class="inline-flex items-center gap-2 bg-green-500/15 border border-green-500/30 px-5 py-2 rounded-full text-green-400 font-bold mb-8 bounce-slow">
+                    <i class="fa-solid fa-truck-fast"></i> توصيل مجاني لكامل الجزائر 🇩🇿
+                </div>
+
+                <h2 class="text-3xl md:text-5xl font-black text-white mb-4">
+                    لا تدع الفرصة <span class="shimmer">تفوتك!</span>
+                </h2>
+                <p class="text-slate-400 text-lg mb-10">احصل على فقاسة River ET49 الأصلية مع ضمان الوكيل الرسمي ودعم فني متواصل.</p>
+
+                <!-- Price -->
+                <div class="neon-card rounded-3xl p-8 mb-8 relative overflow-hidden">
+                    <div class="absolute top-0 left-0 bg-green-500 text-black px-4 py-1 rounded-br-2xl font-black text-sm">
+                        خصم خاص
+                    </div>
+                    <div class="text-slate-500 line-through text-lg mb-2 mt-2">49,000 دج</div>
+                    <div class="text-6xl font-black text-white mb-2">39,000 <span class="text-green-400 text-3xl">دج</span></div>
+                    <div class="inline-block bg-green-500/15 border border-green-500/30 text-green-400 px-8 py-2 rounded-full font-black text-xl mt-2">3 ملاين و 900 ألف</div>
+                </div>
+
+                <ul class="text-right space-y-3 mb-8 text-slate-400 max-w-sm mx-auto">
+                    <li class="flex items-center gap-3"><i class="fa-solid fa-check text-green-500 w-5"></i> فقاسة أوتوماتيكية سعة 49 بيضة دجاج</li>
+                    <li class="flex items-center gap-3"><i class="fa-solid fa-check text-green-500 w-5"></i> محرك تقليب أصلي</li>
+                    <li class="flex items-center gap-3"><i class="fa-solid fa-check text-green-500 w-5"></i> دليل الاستخدام باللغة العربية</li>
+                </ul>
+
+                <a href="https://yaltech.foorweb.store/yaltech/products/river49" class="ripple glow glow-anim w-full bg-green-500 hover:bg-green-400 text-black font-black text-2xl py-5 rounded-2xl transition-all duration-300 flex justify-center items-center gap-3 mb-6">
+                    <i class="fa-solid fa-cart-shopping"></i> اكمال الطلبية من هنا
+                </a>
+
+                <div class="flex items-center justify-center gap-3 neon-card rounded-2xl p-4">
+                    <div class="w-10 h-10 bg-green-500/15 border border-green-500/30 rounded-xl flex items-center justify-center">
+                        <i class="fa-solid fa-box-open text-green-400 animate-pulse"></i>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-white font-bold">الدفع عند الاستلام متاح</div>
+                        <div class="text-slate-500 text-sm">نصلك لباب الدار في 58 ولاية</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======== FOOTER ======== -->
+    <footer class="border-t border-green-500/10 py-16" style="background: var(--dark);">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-12">
+                <div data-aos="fade-right">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-8 h-8 rounded-lg bg-green-500/20 border border-green-500/40 flex items-center justify-center">
+                            <i class="fa-solid fa-egg text-green-400 text-sm"></i>
+                        </div>
+                        <span class="text-white font-black text-xl">River Systems</span>
+                    </div>
+                    <p class="text-slate-500 text-sm leading-relaxed max-w-xs">
+                        نوفر أفضل تقنيات التفقيس الإيطالية لضمان نجاح مشروعك بأعلى كفاءة وأقل مجهود.
+                    </p>
+                </div>
+
+                <div data-aos="fade-left">
+                    <h4 class="text-white font-black mb-6">تواصل معنا</h4>
+                    <ul class="space-y-3">
+                        <li>
+                            <a href="tel:0658236890" class="flex items-center gap-3 text-slate-400 hover:text-green-400 transition group">
+                                <div class="w-8 h-8 bg-green-500/10 border border-green-500/20 rounded-lg flex items-center justify-center group-hover:bg-green-500/20 transition">
+                                    <i class="fa-solid fa-phone text-green-400 text-sm"></i>
+                                </div>
+                                <span dir="ltr">0658 23 68 90</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://fb.com/VALTECH.Officiel" target="_blank" class="flex items-center gap-3 text-slate-400 hover:text-green-400 transition group">
+                                <div class="w-8 h-8 bg-green-500/10 border border-green-500/20 rounded-lg flex items-center justify-center group-hover:bg-green-500/20 transition">
+                                    <i class="fa-brands fa-facebook text-green-400 text-sm"></i>
+                                </div>
+                                <span dir="ltr">FB.com/VALTECH.Officiel</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="flex gap-3 mt-6">
+                        <a href="#" class="w-10 h-10 neon-card rounded-xl flex items-center justify-center text-slate-500 hover:text-green-400 hover:border-green-500/50 transition">
+                            <i class="fa-brands fa-instagram text-sm"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 neon-card rounded-xl flex items-center justify-center text-slate-500 hover:text-green-400 hover:border-green-500/50 transition">
+                            <i class="fa-brands fa-facebook-f text-sm"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 neon-card rounded-xl flex items-center justify-center text-slate-500 hover:text-green-400 hover:border-green-500/50 transition">
+                            <i class="fa-brands fa-twitter text-sm"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-divider mb-8"></div>
+            <div class="text-center text-slate-600 text-sm">
+                <p>&copy; 2026 جميع الحقوق محفوظة — موزع معتمد لمنتجات River Systems.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ======== LIGHTBOX ======== -->
+    <div id="lightbox" class="fixed inset-0 z-[999999] bg-black/95 backdrop-blur-sm hidden items-center justify-center opacity-0 transition-opacity duration-300" onclick="if(event.target===this) closeLightbox()">
+        <button onclick="closeLightbox()" class="absolute top-6 right-6 text-white text-5xl hover:text-green-400 transition">&times;</button>
+        <img id="lightbox-img" src="" class="max-w-[95%] max-h-[95%] object-contain rounded-2xl shadow-2xl scale-95 transition-transform duration-300 border border-green-500/20">
+    </div>
+
+    <!-- ======== WHATSAPP ======== -->
+    <div class="fixed bottom-6 left-6 z-[10000] flex items-center gap-3 hover:-translate-y-1 transition-transform duration-300">
+        <div class="neon-card text-slate-300 px-4 py-2 rounded-2xl rounded-bl-none text-sm font-bold whitespace-nowrap">
+            عندك سؤال؟ راسلنا <span class="text-green-400">●</span>
+        </div>
+        <a href="https://wa.me/213670735159?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20%D8%8C%20%D9%84%D8%AF%D9%8A%20%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%AD%D9%88%D9%84%20%D9%81%D9%82%D8%A7%D8%B3%D8%A9%20River%20ET49" target="_blank" rel="noopener noreferrer"
+           class="glow-sm bg-green-500 hover:bg-green-400 text-black w-14 h-14 rounded-full flex items-center justify-center transition-all hover:scale-110 active:scale-95 border-2 border-green-400/30 relative">
+            <i class="fa-brands fa-whatsapp text-3xl"></i>
+            <span class="absolute -top-1 -right-1 flex h-4 w-4">
+                <span class="animate-ping absolute inset-0 rounded-full bg-green-300 opacity-60"></span>
+                <span class="relative w-4 h-4 bg-green-400 rounded-full border-2 border-black flex items-center justify-center text-[9px] font-black text-black">1</span>
+            </span>
+        </a>
+    </div>
+
+    <!-- ======== SCRIPTS ======== -->
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+
+    <script>
+        // ===== AOS =====
+        AOS.init({ duration: 900, easing: 'ease-out-cubic', once: true, offset: 60 });
+
+        // ===== Progress Bar =====
+        const bar = document.getElementById('progress-bar');
+        window.addEventListener('scroll', () => {
+            const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+            bar.style.width = pct + '%';
+        });
+
+        // ===== Navbar scroll =====
+        const nav = document.getElementById('main-nav');
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // ===== Lightbox =====
+        function openLightbox(src) {
+            const lb = document.getElementById('lightbox');
+            const img = document.getElementById('lightbox-img');
+            img.src = src;
+            lb.classList.remove('hidden');
+            lb.classList.add('flex');
+            setTimeout(() => { lb.classList.add('opacity-100'); lb.classList.remove('opacity-0'); img.classList.remove('scale-95'); img.classList.add('scale-100'); }, 10);
+        }
+        function closeLightbox() {
+            const lb = document.getElementById('lightbox');
+            const img = document.getElementById('lightbox-img');
+            lb.classList.remove('opacity-100'); lb.classList.add('opacity-0');
+            img.classList.remove('scale-100'); img.classList.add('scale-95');
+            setTimeout(() => { lb.classList.remove('flex'); lb.classList.add('hidden'); img.src = ''; }, 300);
+        }
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+        // ===== Counter =====
+        const counterObs = new IntersectionObserver(entries => {
+            entries.forEach(el => {
+                if (el.isIntersecting && !el.target.dataset.done) {
+                    el.target.dataset.done = '1';
+                    const target = +el.target.dataset.target;
+                    let cur = 0; const step = target / 80;
+                    const t = setInterval(() => { cur = Math.min(cur + step, target); el.target.textContent = Math.round(cur); if (cur >= target) clearInterval(t); }, 20);
+                }
+            });
+        }, { threshold: .5 });
+        document.querySelectorAll('.counter').forEach(el => counterObs.observe(el));
+
+        // ===== Three.js 3D Hero =====
+        (function() {
+            const canvas = document.getElementById('hero-canvas');
+            const section = canvas.parentElement;
+            const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+            renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+            renderer.setSize(section.offsetWidth, section.offsetHeight);
+
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(60, section.offsetWidth / section.offsetHeight, .1, 1000);
+            camera.position.z = 40;
+
+            // Green particles
+            const geo1 = new THREE.BufferGeometry();
+            const pos1 = new Float32Array(250 * 3);
+            for (let i = 0; i < 250; i++) {
+                pos1[i*3]   = (Math.random() - .5) * 140;
+                pos1[i*3+1] = (Math.random() - .5) * 90;
+                pos1[i*3+2] = (Math.random() - .5) * 70;
+            }
+            geo1.setAttribute('position', new THREE.BufferAttribute(pos1, 3));
+            const mat1 = new THREE.PointsMaterial({ color: 0x22c55e, size: .4, transparent: true, opacity: .7 });
+            const pts1 = new THREE.Points(geo1, mat1);
+            scene.add(pts1);
+
+            // Dim green particles
+            const geo2 = new THREE.BufferGeometry();
+            const pos2 = new Float32Array(100 * 3);
+            for (let i = 0; i < 100; i++) {
+                pos2[i*3]   = (Math.random() - .5) * 130;
+                pos2[i*3+1] = (Math.random() - .5) * 85;
+                pos2[i*3+2] = (Math.random() - .5) * 60;
+            }
+            geo2.setAttribute('position', new THREE.BufferAttribute(pos2, 3));
+            const mat2 = new THREE.PointsMaterial({ color: 0x4ade80, size: .25, transparent: true, opacity: .35 });
+            const pts2 = new THREE.Points(geo2, mat2);
+            scene.add(pts2);
+
+            // Wireframe spheres
+            const spheres = [];
+            for (let i = 0; i < 4; i++) {
+                const m = new THREE.Mesh(
+                    new THREE.SphereGeometry(2.5 + Math.random() * 2, 8, 8),
+                    new THREE.MeshBasicMaterial({ color: 0x22c55e, wireframe: true, transparent: true, opacity: .08 + Math.random() * .07 })
+                );
+                m.position.set((Math.random()-.5)*90, (Math.random()-.5)*55, (Math.random()-.5)*35);
+                m.userData = { vx: (Math.random()-.5)*.007, vy: (Math.random()-.5)*.007, vr: (Math.random()-.5)*.008 };
+                scene.add(m); spheres.push(m);
+            }
+
+            // Wireframe torus rings
+            const rings = [];
+            for (let i = 0; i < 3; i++) {
+                const m = new THREE.Mesh(
+                    new THREE.TorusGeometry(3 + Math.random()*2, .3, 8, 32),
+                    new THREE.MeshBasicMaterial({ color: 0x16a34a, wireframe: true, transparent: true, opacity: .08 })
+                );
+                m.position.set((Math.random()-.5)*80, (Math.random()-.5)*50, (Math.random()-.5)*30);
+                m.userData = { rx: Math.random()*.009, ry: Math.random()*.009 };
+                scene.add(m); rings.push(m);
+            }
+
+            // Icosahedron
+            const ico = new THREE.Mesh(
+                new THREE.IcosahedronGeometry(8, 1),
+                new THREE.MeshBasicMaterial({ color: 0x22c55e, wireframe: true, transparent: true, opacity: .04 })
+            );
+            ico.position.set(20, -10, -20);
+            scene.add(ico);
+
+            let mx = 0, my = 0;
+            document.addEventListener('mousemove', e => { mx = (e.clientX/innerWidth-.5)*2; my = (e.clientY/innerHeight-.5)*2; });
+
+            const clock = new THREE.Clock();
+            (function animate() {
+                requestAnimationFrame(animate);
+                const t = clock.getElapsedTime();
+                pts1.rotation.y = t * .04;
+                pts1.rotation.x = my * .06;
+                pts2.rotation.y = -t * .03;
+                pts2.rotation.x = mx * .04;
+                ico.rotation.y += .003; ico.rotation.x += .002;
+
+                spheres.forEach(s => {
+                    s.position.x += s.userData.vx; s.position.y += s.userData.vy;
+                    s.rotation.y += s.userData.vr;
+                    if (Math.abs(s.position.x) > 50) s.userData.vx *= -1;
+                    if (Math.abs(s.position.y) > 32) s.userData.vy *= -1;
+                });
+                rings.forEach(r => { r.rotation.x += r.userData.rx; r.rotation.y += r.userData.ry; });
+
+                camera.position.x += (mx * 4 - camera.position.x) * .025;
+                camera.position.y += (-my * 2.5 - camera.position.y) * .025;
+                camera.lookAt(0, 0, 0);
+                renderer.render(scene, camera);
+            })();
+
+            window.addEventListener('resize', () => {
+                const w = section.offsetWidth, h = section.offsetHeight;
+                camera.aspect = w / h; camera.updateProjectionMatrix();
+                renderer.setSize(w, h);
+            });
+        })();
+
+        // ===== VanillaTilt =====
+        VanillaTilt.init(document.querySelectorAll('.neon-card:not(.no-tilt)'), {
+            max: 6, speed: 500, glare: true, 'max-glare': .08, perspective: 1200
+        });
+    </script>
+</body>
+</html>
